@@ -1,0 +1,72 @@
+@import '@fontsource/instrument-serif/latin-400.css';
+@import '@fontsource/lora/latin-400.css';
+@import '@fontsource/lora/latin-400-italic.css';
+@import '@fontsource/jetbrains-mono/latin-400.css';
+@import '@fontsource/dm-sans/latin-400.css';
+@import '@fontsource/dm-sans/latin-700.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    background-color: theme('colors.cream.base');
+    scroll-behavior: smooth;
+    /* Hide scrollbar but keep scroll functionality */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* Prevent layout shift from scrollbar */
+    overflow-y: scroll;
+  }
+  html::-webkit-scrollbar { 
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  body { 
+    color: theme('colors.ink.DEFAULT'); 
+    font-family: 'Lora', serif;
+    overflow-x: hidden;
+  }
+  * { box-sizing: border-box; }
+
+  /* Screen reader only utility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Enhanced focus styles for accessibility */
+  :focus-visible {
+    outline: 2px solid theme('colors.accent.red');
+    outline-offset: 2px;
+  }
+
+  /* Remove default focus outline when not using keyboard */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* Better focus for buttons and links */
+  a:focus-visible,
+  button:focus-visible {
+    outline: 2px solid theme('colors.accent.red');
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+.graph-paper {
+  background-image:
+    linear-gradient(theme('colors.cream.line') 1px, transparent 1px),
+    linear-gradient(90deg, theme('colors.cream.line') 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.6;
+}

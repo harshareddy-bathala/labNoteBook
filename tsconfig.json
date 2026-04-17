@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@/content/*": ["./.velite/*"],
+      "@velite": ["./.velite"]
+    }
+  },
+  "files": [],
+  "include": [".velite"],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}

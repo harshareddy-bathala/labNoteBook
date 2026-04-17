@@ -1,0 +1,52 @@
+---
+id: "EXP-007"
+slug: "acadmetrics"
+title: "AcadMetrics"
+description: "Academic performance analytics dashboard that helps university students visualize trends, identify weak spots, and track progress across semesters."
+status: "active"
+startDate: "Aug 2024"
+year: 2025
+tags: ["full-stack", "typescript", "postgresql"]
+stack: ["React", "Python", "D3"]
+abstract: "AcadMetrics started as a department requirement and became a full-stack architecture problem. The core challenge was that academic data is deceptively polymorphic — grades, credits, and course categories encode differently across institutions."
+figure: "Fig. 1 - GPA trend analysis view"
+githubUrl: "https://github.com/harsha/acadmetrics"
+liveUrl: "https://acadmetrics.app"
+featured: true
+published: true
+---
+
+## Abstract
+
+AcadMetrics started as a department requirement and became a full-stack
+architecture problem. The core challenge: academic data is deceptively
+polymorphic.
+
+## Problem Statement
+
+Every university encodes grade records differently. A single `GradeValue`
+type needs to handle letter grades, numeric scales, and pass/fail — each
+with different GPA contribution rules.
+
+## Hypothesis
+
+If the data model captures semantic meaning rather than flattening to
+scalars, the analytics layer can answer richer questions without
+post-processing hacks.
+
+## Methodology
+
+Three weeks of domain research before writing infrastructure. Twelve
+student interviews. Four institutional transcript formats analyzed.
+TypeScript discriminated unions designed before the first migration.
+```typescript
+type GradeValue =
+	| { kind: 'letter'; value: 'A' | 'B' | 'C' | 'D' | 'F' }
+	| { kind: 'numeric'; value: number; scale: number }
+	| { kind: 'passfail'; passed: boolean };
+```
+
+## Results
+
+Backend at partial completion. The schema has held without a breaking
+migration across six weeks of active development.

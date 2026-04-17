@@ -1,0 +1,43 @@
+---
+id: "EXP-006"
+slug: "android-remote"
+title: "Android Remote"
+description: "Cross-platform remote control interface for Android devices, enabling seamless input mirroring and file transfer over local networks."
+status: "paused"
+startDate: "Jan 2024"
+year: 2024
+tags: ["android", "webrtc", "kotlin", "electron"]
+stack: ["Kotlin", "WebSocket"]
+abstract: "Existing remote control solutions either required paid subscriptions or had unacceptable latency. This experiment explores peer-to-peer WebRTC signaling to achieve sub-100ms control latency."
+figure: "Fig. 2 - Device pairing handshake flow"
+githubUrl: "https://github.com/harsha/android-remote"
+featured: false
+published: true
+---
+
+## Abstract
+
+Existing remote control solutions were either paid or too slow.
+This experiment explores sub-100ms latency via WebRTC peer-to-peer.
+
+## Problem Statement
+
+No free, open-source Android remote control tool offered acceptable
+latency for development use. ADB over USB doesn't work wirelessly
+without significant setup friction.
+
+## Hypothesis
+
+WebRTC's data channels can carry input events with lower latency than
+HTTP polling approaches currently used by open-source tools.
+
+## Methodology
+
+42-day phased roadmap: signaling server setup with coturn, Kotlin
+WebSocket client on Android, Electron desktop host, input event
+forwarding layer.
+
+## Results
+
+Paused at signaling layer. coturn configuration working.
+Resuming after AcadMetrics backend sprint completes.
