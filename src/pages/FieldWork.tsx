@@ -11,6 +11,8 @@ export default function FieldWork() {
     description: 'Professional client engagements and case studies.',
   })
 
+  const hasRestrictedEntries = fieldwork.some((engagement) => engagement.restricted)
+
   return (
     <main className="overflow-x-hidden bg-cream-base text-ink">
       <section className="mx-auto w-full max-w-[1160px] px-8 pb-16 pt-20 sm:px-10 sm:pb-20 sm:pt-24 lg:px-14 lg:pb-24 xl:px-16">
@@ -19,7 +21,7 @@ export default function FieldWork() {
             Field Work
           </h1>
           <p className="mt-4 font-mono text-[12px] leading-[18px] text-ink-muted sm:text-[13px] sm:leading-[19.5px]">
-            [ {fieldwork.length} engagements · confidential ]
+            [ {fieldwork.length} engagements · {hasRestrictedEntries ? 'confidential' : 'public'} ]
           </p>
         </div>
 
@@ -35,9 +37,11 @@ export default function FieldWork() {
                     >
                       <span className="font-mono text-xs text-ink-muted">{engagement.id}</span>
                     </div>
-                    <div className="absolute inset-0 flex items-center justify-center bg-ink/65 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                      <span className="font-mono text-xs uppercase tracking-[0.8px] text-cream-base">[restricted]</span>
-                    </div>
+                    {engagement.restricted && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-ink/65 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                        <span className="font-mono text-xs uppercase tracking-[0.8px] text-cream-base">[restricted]</span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
