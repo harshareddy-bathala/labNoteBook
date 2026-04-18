@@ -6,16 +6,16 @@ import profileImage from '../assets/profile.webp'
 
 const education = [
   {
-    year: '2022-26',
-    degree: 'B.Tech, Computer Science',
-    institution: 'IIIT Hyderabad',
-    score: 'CGPA 8.7',
+    year: '2024-27',
+    degree: 'Diploma, Computer Technology and IT Infrastructure',
+    institution: 'NTTF NEC, Bangalore',
+    score: 'CGPA 9.4',
   },
   {
-    year: '2020-22',
-    degree: 'Intermediate (MPC)',
-    institution: 'Sri Chaitanya Junior College',
-    score: '96.4%',
+    year: '2023-24',
+    degree: '10th Standard',
+    institution: 'Kadiri, Andhra Pradesh',
+    score: '97.8%',
   },
 ]
 
@@ -37,6 +37,24 @@ const coursework = [
   'Software Engineering',
   'Web Technologies',
   'Machine Learning Fundamentals',
+]
+
+const certifications = [
+  {
+    title: 'OCI Generative AI Professional',
+    issuer: 'Oracle',
+    date: 'Oct 2025',
+  },
+  {
+    title: 'OCI Data Science',
+    issuer: 'Oracle',
+    date: 'Oct 2025',
+  },
+  {
+    title: 'CCNA: Enterprise Networking and Security',
+    issuer: 'Cisco',
+    date: 'Sep 2025',
+  },
 ]
 
 const correspondence = [
@@ -73,7 +91,7 @@ function RevealSection({ children, className = '', delay = 0 }: RevealSectionPro
 export default function About() {
   usePageMeta({
     title: 'About',
-    description: 'Learn about Harsha Vardhan Bathala - software engineer, researcher, and builder.',
+    description: 'Learn about Harsha Vardhan Bathala - focused on DevOps, cloud, and infrastructure engineering.',
   })
 
   const [showCopiedToast, setShowCopiedToast] = useState(false)
@@ -91,7 +109,7 @@ export default function About() {
 
   return (
     <main className="overflow-x-hidden bg-cream-base text-ink">
-      <RevealSection className="w-full border-b border-cream-line bg-cream-base px-8 py-9 sm:px-10 sm:py-11 lg:px-20 lg:py-12">
+      <RevealSection className="w-full border-b border-cream-line bg-cream-base px-8 pt-9 pb-14 sm:px-10 sm:pt-11 sm:pb-16 lg:px-20 lg:pt-12 lg:pb-28">
         <div className="mx-auto w-full max-w-[998px]">
           <p className="font-mono text-[11px] uppercase tracking-[0.88px] text-ink-muted">
             Profile - Researcher No. 001
@@ -125,18 +143,15 @@ export default function About() {
 
             <div className="max-w-[545px]">
               <p className="font-mono text-[13px] leading-[19.5px] text-ink-muted">
-                CS undergrad based in Hyderabad, India
+                Based in Bangalore, India
               </p>
               <h2 className="mt-3 font-display text-[36px] leading-[1.12] text-ink sm:text-[48px] sm:leading-[55.2px]">
-                CS student. Full-stack builder.
-                <br />
-                Shipping things since 2023.
+                Diploma student. DevOps and cloud focused.
               </h2>
               <p className="mt-6 max-w-[56ch] font-body text-[16px] leading-[1.75] text-ink sm:text-[18px] sm:leading-[31.5px]">
-                I&apos;ve been building software since my second year of CS. AcadMetrics started as a
-                department requirement and became a full-stack architecture project. The Android
-                Remote Control system came from frustration with existing tools. Most of what I build
-                starts the same way: a problem I could not find a good solution for.
+                Pursuing a Diploma in Computer Technology and IT Infrastructure at NTTF NEC
+                (2024-27), Bangalore, with 9.4 CGPA. Focused on DevOps cloud workflows,
+                infrastructure automation, and secure networking.
               </p>
             </div>
           </div>
@@ -174,6 +189,31 @@ export default function About() {
 
       <RevealSection className="w-full bg-cream-base px-8 py-12 sm:px-10 sm:py-14 lg:px-20 lg:py-16" delay={0.05}>
         <div className="mx-auto w-full max-w-[998px]">
+          <p className="font-mono text-[11px] uppercase tracking-[0.88px] text-ink-muted">Certifications</p>
+          <div className="mt-8 border-t border-cream-line">
+            {certifications.map((entry) => (
+              <article key={entry.title} className="border-b border-cream-line py-5">
+                <div className="flex items-center justify-between gap-3 lg:hidden">
+                  <p className="font-mono text-[11px] leading-[16px] text-ink-muted">{entry.issuer}</p>
+                  <p className="font-mono text-[11px] leading-[16px] text-ink">{entry.date}</p>
+                </div>
+                <h3 className="mt-2 font-display text-[20px] leading-[1.25] text-ink sm:text-[22px] sm:leading-[33px] lg:hidden">
+                  {entry.title}
+                </h3>
+
+                <div className="hidden items-center lg:grid lg:min-h-[74px] lg:grid-cols-[1fr_150px_90px] lg:gap-5">
+                  <h3 className="font-display text-[22px] leading-[33px] text-ink">{entry.title}</h3>
+                  <p className="font-body text-[15px] leading-[22.5px] text-ink-muted">{entry.issuer}</p>
+                  <p className="justify-self-end font-mono text-xs text-ink">{entry.date}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </RevealSection>
+
+      <RevealSection className="w-full bg-cream-surface px-8 py-12 sm:px-10 sm:py-14 lg:px-20 lg:py-16" delay={0.07}>
+        <div className="mx-auto w-full max-w-[998px]">
           <p className="font-mono text-[11px] uppercase tracking-[0.88px] text-ink-muted">Toolkit</p>
           <div className="mt-8 border-t border-cream-line">
             {toolkit.map((entry) => (
@@ -191,7 +231,7 @@ export default function About() {
         </div>
       </RevealSection>
 
-      <RevealSection className="w-full bg-cream-surface px-8 py-12 sm:px-10 sm:py-14 lg:px-20 lg:py-16" delay={0.07}>
+      <RevealSection className="w-full bg-cream-base px-8 py-12 sm:px-10 sm:py-14 lg:px-20 lg:py-16" delay={0.09}>
         <div className="mx-auto w-full max-w-[998px]">
           <p className="font-mono text-[11px] uppercase tracking-[0.88px] text-ink-muted">
             Relevant Coursework
@@ -209,7 +249,7 @@ export default function About() {
         </div>
       </RevealSection>
 
-      <RevealSection className="w-full bg-cream-base px-8 py-12 sm:px-10 sm:py-14 lg:px-20 lg:py-16" delay={0.09}>
+      <RevealSection className="w-full bg-cream-surface px-8 py-12 sm:px-10 sm:py-14 lg:px-20 lg:py-16" delay={0.11}>
         <div className="mx-auto w-full max-w-[760px]">
           <p className="font-mono text-[11px] uppercase tracking-[0.88px] text-ink-muted">Currently</p>
           <div className="mt-8 border-t border-cream-line">
@@ -232,7 +272,7 @@ export default function About() {
         </div>
       </RevealSection>
 
-      <RevealSection className="w-full bg-cream-surface px-8 py-12 sm:px-10 sm:py-14 lg:px-20 lg:py-16" delay={0.11}>
+      <RevealSection className="w-full bg-cream-base px-8 py-12 sm:px-10 sm:py-14 lg:px-20 lg:py-16" delay={0.13}>
         <div className="mx-auto w-full max-w-[760px]">
           <p className="font-mono text-[11px] uppercase tracking-[0.88px] text-ink-muted">Correspondence</p>
           <div className="mt-8 border-t border-cream-line">

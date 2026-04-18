@@ -12,16 +12,20 @@
   html {
     background-color: theme('colors.cream.base');
     scroll-behavior: smooth;
-    /* Hide scrollbar but keep scroll functionality */
     scrollbar-width: none;
     -ms-overflow-style: none;
-    /* Prevent layout shift from scrollbar */
-    overflow-y: scroll;
   }
-  html::-webkit-scrollbar { 
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar,
+  *::-webkit-scrollbar {
     display: none;
     width: 0;
     height: 0;
+  }
+  body,
+  * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
   body { 
     color: theme('colors.ink.DEFAULT'); 

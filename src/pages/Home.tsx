@@ -82,7 +82,7 @@ export default function Home() {
                 className="h-full w-full rounded-full object-cover border border-cream-line"
               />
             </div>
-            <p className="text-center font-mono text-xs text-ink-muted">• Hyderabad, India</p>
+            <p className="text-center font-mono text-xs text-ink-muted">• Bangalore, India</p>
           </div>
 
           <div className="mx-auto w-full max-w-[461px] lg:mx-0">
@@ -95,8 +95,8 @@ export default function Home() {
             </h1>
 
             <p className="mt-6 max-w-[34ch] font-body text-[16px] leading-[1.75] text-ink-muted sm:max-w-[408px] sm:text-[17px] sm:leading-[29.75px]">
-              I build software as a research practice: turning rough hypotheses into shipped products,
-              writing down what worked, and refining the next version with clearer intent.
+              I build cloud-ready applications and the infrastructure behind them, from code to
+              deployment pipelines, with reliability and clarity as the baseline.
             </p>
 
             <div className="mt-10 grid max-w-[430px] grid-cols-3">
@@ -132,17 +132,17 @@ export default function Home() {
       <RevealSection className="bg-cream-base px-8 pb-20 sm:px-10 sm:pb-28 lg:px-20 lg:pb-24">
         <div className="mx-auto grid w-full max-w-[998px] gap-12 lg:grid-cols-[minmax(0,486px)_minmax(0,352px)] lg:items-start lg:justify-between lg:gap-16">
           <div className="max-w-[486px]">
-            <p className="font-mono text-xs tracking-[0.6px] text-ink-muted">[ VOL. 01 — 2024–PRESENT ]</p>
+            <p className="font-mono text-xs tracking-[0.6px] text-ink-muted">[ INFRA JOURNAL — 2024–PRESENT ]</p>
 
             <h2 className="mt-6 font-display text-[44px] leading-[1.07] text-ink sm:text-[56px] sm:leading-[1.05] lg:text-[72px] lg:leading-[79.2px]">
-              Building things
+              Building systems
               <br />
-              worth writing about.
+              built to run.
             </h2>
 
             <p className="mt-6 max-w-[38ch] font-body text-[16px] leading-[1.72] text-ink-muted sm:max-w-[475px] sm:text-[18px] sm:leading-[30.6px]">
-              This notebook tracks experiments, client work, and observations through one lens:
-              build with intention, measure honestly, and share the learnings in public.
+              This lab tracks engineering work across application delivery, cloud operations,
+              and practical automation for real deployment environments.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-3 sm:mt-9 sm:gap-8">
