@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { experiments, type Experiment } from '../data/experiments'
+import { experiments } from '../data/experiments'
+import { alsoBuilt } from '../data/alsoBuilt'
 import EmptyState from '../components/ui/EmptyState'
 import { usePageMeta } from '../hooks/usePageMeta'
 
@@ -13,21 +14,14 @@ function statusClass(status: DisplayStatus) {
   return 'text-ink-muted'
 }
 
-// Generate figure caption from experiment ID
-function getFigure(exp: Experiment): string {
-  if (exp.figure) return exp.figure
-  const figNum = parseInt(exp.id.replace('EXP-', ''), 10)
-  return `Fig. ${figNum} - documented experiment`
-}
-
 export default function Experiments() {
   usePageMeta({
     title: 'Experiments',
-    description: 'A collection of technical experiments, side projects, and prototypes.',
+    description: 'Twelve projects, ranked, public and private: Meridian, NetWatch, Alisu, Bathala Enterprises, Cairn and more.',
   })
 
-  // Sort experiments by ID descending (newest first)
-  const sortedExperiments = [...experiments].sort((a, b) => b.id.localeCompare(a.id))
+  // Ordered by rank: EXP-001 is first.
+  const sortedExperiments = experiments
   
   const activeCount = sortedExperiments.filter((exp) => exp.status === 'active').length
   const pausedCount = sortedExperiments.filter((exp) => exp.status === 'paused').length
@@ -39,7 +33,7 @@ export default function Experiments() {
   )
 
   return (
-    <main className="bg-cream-base text-ink">
+    <div className="bg-cream-base text-ink">
       <div className="mx-auto w-full max-w-[1160px] border-b border-cream-line px-4 pb-px pt-12 sm:px-8 sm:pt-16 lg:px-14 xl:px-16">
         <div className="pt-3 sm:pt-6">
           <Link
@@ -93,6 +87,7 @@ export default function Experiments() {
                     <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
                       <span className="text-ink-muted">{experiment.id}</span>
                       <span className={statusClass(experiment.status)}>[ {experiment.status} ]</span>
+                      {experiment.restricted && <span className="text-ink-muted">[ restricted ]</span>}
                     </div>
                     <span className="text-[10px] tracking-[0.6px] text-accent-red">★ PINNED</span>
                   </div>
@@ -112,7 +107,7 @@ export default function Experiments() {
                   <p className="mt-3 font-body text-[14px] leading-[1.64] text-ink-muted sm:text-[15px] sm:leading-[25.5px]">{experiment.description}</p>
 
                   <div className="mt-5 flex items-start justify-between gap-4 sm:items-center">
-                    <p className="max-w-[24ch] font-mono text-[11px] italic leading-[16.5px] text-ink-muted">{getFigure(experiment)}</p>
+                    <p className="max-w-[28ch] font-mono text-[11px] italic leading-[16.5px] text-ink-muted">{experiment.startDate}{experiment.restricted ? ' · [restricted]' : ''}</p>
                     <span className="inline-flex min-h-[44px] items-center font-mono text-[13px] text-accent-red opacity-50 transition-opacity duration-200 group-hover:opacity-100">
                       → open
                     </span>
@@ -130,7 +125,7 @@ export default function Experiments() {
             className="font-mono text-[11px] uppercase text-ink-muted"
             style={{ letterSpacing: '1.1px' }}
           >
-            All Entries
+            Ranked, best first
           </p>
           <div className="h-px flex-1 bg-cream-line" />
         </div>
@@ -157,6 +152,7 @@ export default function Experiments() {
                 <p className="truncate font-body text-sm leading-[21px] text-ink-muted">{experiment.description}</p>
                 <span className={`font-mono text-[11px] leading-[16.5px] ${statusClass(experiment.status)}`}>
                   [ {experiment.status} ]
+                  {experiment.restricted && <span className="block text-ink-muted">[ restricted ]</span>}
                 </span>
                 <span className="font-mono text-xs leading-[18px] text-ink-muted">{experiment.year}</span>
                 <div className="flex flex-wrap gap-1.5">
@@ -193,6 +189,7 @@ export default function Experiments() {
                 <div className="mt-3 flex items-center justify-between gap-3">
                   <span className={`font-mono text-[11px] leading-[16.5px] ${statusClass(experiment.status)}`}>
                     [ {experiment.status} ]
+                    {experiment.restricted && <span className="ml-2 text-ink-muted">[ restricted ]</span>}
                   </span>
                   <span className="inline-flex min-h-[44px] items-center font-mono text-[12px] leading-[18px] text-accent-red">→ open</span>
                 </div>
@@ -220,7 +217,35 @@ export default function Experiments() {
             />
           )}
         </div>
+
+        <div className="mt-16">
+          <div className="flex items-center gap-4">
+            <p className="font-mono text-[11px] uppercase text-ink-muted" style={{ letterSpacing: '1.1px' }}>
+              Also built
+            </p>
+            <div className="h-px flex-1 bg-cream-line" />
+          </div>
+          <ul className="mt-6 grid gap-x-12 gap-y-1 sm:grid-cols-2">
+            {alsoBuilt.map((item) => (
+              <li key={item.name} className="border-b border-cream-line py-3">
+                {item.href ? (
+                  <a
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-display text-xl text-ink no-underline transition-colors hover:text-accent-red"
+                  >
+                    {item.name} ↗
+                  </a>
+                ) : (
+                  <span className="font-display text-xl text-ink">{item.name}</span>
+                )}
+                <p className="mt-1 font-body text-sm leading-[21px] text-ink-muted">{item.note}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
       </section>
-    </main>
+    </div>
   )
 }

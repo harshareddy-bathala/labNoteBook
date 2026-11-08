@@ -4,7 +4,7 @@ import { motion, useScroll, useSpring } from 'framer-motion'
 import { observations, getBySlug } from '../data/observations'
 import { experiments } from '../data/experiments'
 import { mdxComponents } from '../components/mdx/MDXComponents'
-import { useMDXComponent } from '../components/mdx/useMDXComponent'
+import { MDXContent } from '../components/mdx/MDXContent'
 import { usePageMeta } from '../hooks/usePageMeta'
 import ErrorBoundary from '../components/ui/ErrorBoundary'
 import ContentSkeleton from '../components/ui/ContentSkeleton'
@@ -53,7 +53,6 @@ export default function BlogPost() {
   const postBodyEndRef = useRef<HTMLDivElement | null>(null)
   const tocRailRef = useRef<HTMLElement | null>(null)
   const tocPanelRef = useRef<HTMLDivElement | null>(null)
-  const Content = useMDXComponent(observation?.code ?? '')
   const hasContent = Boolean(observation?.code)
   const sectionOrder = useMemo(
     () => flattenToc((observation?.toc ?? []) as TocNode[]),
@@ -70,17 +69,15 @@ export default function BlogPost() {
     mass: 0.24,
   })
   const relatedExperiments = useMemo(() => {
-    const preferred = ['EXP-007', 'EXP-005']
+    const preferred = observation?.related ?? []
     const chosen = experiments.filter((exp) => preferred.includes(exp.id))
-    if (chosen.length === 2) {
-      return chosen
-    }
-    return experiments.slice(0, 2)
-  }, [experiments])
+    return chosen.length > 0 ? chosen : experiments.slice(0, 2)
+  }, [observation])
 
-  useEffect(() => {
-    setActiveSection(sectionOrder[0]?.id ?? '')
-  }, [sectionOrder])
+  // Until the scroll handler reports a section, fall back to the first heading.
+  const currentSection = sectionOrder.some((section) => section.id === activeSection)
+    ? activeSection
+    : (sectionOrder[0]?.id ?? '')
 
   useEffect(() => {
     if (!observation) {
@@ -235,7 +232,7 @@ export default function BlogPost() {
         style={{ scaleX }}
       />
 
-      <main className="overflow-x-hidden bg-cream-base">
+      <div className="overflow-x-hidden bg-cream-base">
         <div className="mx-auto w-full max-w-[1160px] px-4 pb-16 sm:px-8 sm:pb-24 lg:px-14 xl:px-16">
           <header className="pt-10 sm:pt-14">
             <p className="font-mono text-[11px] uppercase tracking-[0.88px] text-ink-muted">Observation</p>
@@ -264,7 +261,7 @@ export default function BlogPost() {
                 }
               >
                 {hasContent ? (
-                  <Content components={mdxComponents} />
+                  <MDXContent code={observation.code} components={mdxComponents} />
                 ) : (
                   <ContentSkeleton type="article" />
                 )}
@@ -302,7 +299,7 @@ export default function BlogPost() {
                         className="group flex min-h-[44px] items-center justify-between gap-3 border-b border-cream-line py-2 pr-2 no-underline transition-[background-color,padding-left] duration-200 hover:bg-cream-line/70 lg:pl-3 lg:hover:pl-5"
                       >
                         <span className="min-w-0 flex-1 break-words pr-2 font-mono text-[12px] leading-[18px] text-ink sm:text-[13px] sm:leading-[19.5px]">[ {exp.id} ] {exp.title}</span>
-                        <span className="font-mono text-[10px] text-ink-muted uppercase transition-colors duration-200 group-hover:text-ink sm:text-[11px]">{exp.status === 'active' ? 'ACTIVE' : 'COMPLETE'}</span>
+                        <span className="font-mono text-[10px] text-ink-muted uppercase transition-colors duration-200 group-hover:text-ink sm:text-[11px]">{exp.status.toUpperCase()}</span>
                       </Link>
                     ))}
                   </div>
@@ -315,7 +312,7 @@ export default function BlogPost() {
                 <p className="font-mono text-[11px] uppercase tracking-[0.88px] text-ink-muted">In This Post</p>
                 <nav className="mt-5 space-y-1.5">
                   {sectionOrder.map((section) => {
-                    const active = activeSection === section.id
+                    const active = currentSection === section.id
                     return (
                       <a
                         key={section.id}
@@ -346,7 +343,7 @@ export default function BlogPost() {
             </aside>
           </div>
         </div>
-      </main>
+      </div>
     </>
   )
 }

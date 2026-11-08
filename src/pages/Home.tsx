@@ -1,4 +1,4 @@
-import { useMemo, useRef, type ReactNode } from 'react'
+import { useRef, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import BlogCard from '../components/ui/BlogCard'
@@ -9,6 +9,7 @@ import ScrollToTop from '../components/ui/ScrollToTop'
 import { experiments, getActive, getFeatured } from '../data/experiments'
 import { fieldwork, type FieldWork } from '../data/fieldwork'
 import { observations } from '../data/observations'
+import { profile } from '../data/profile'
 import { useRevealOnce } from '../hooks/useRevealOnce'
 import profileImage320 from '../assets/profile-320.webp'
 import profileImage640 from '../assets/profile-640.webp'
@@ -46,22 +47,14 @@ export default function Home() {
   const activeCount = getActive().length
   const publishedCount = observations.length
 
-  const featuredFirstExperiments = useMemo(
-    () =>
-      [...experiments].sort((a, b) => {
-        if (a.featured === b.featured) return b.year - a.year
-        return a.featured ? -1 : 1
-      }),
-    []
-  )
-
-  const experimentPreview = featuredFirstExperiments.slice(0, 5)
+  const experimentPreview = experiments.slice(0, 5)
   const featuredExperiment = getFeatured()
   const observationPreview = observations.slice(0, 4)
-  const latestEntries = experiments.slice(0, 4)
+  const topEntries = experiments.slice(0, 4)
+  const restrictedCount = fieldwork.filter((item) => item.restricted).length
 
   return (
-    <main className="bg-cream-base text-ink overflow-x-hidden">
+    <div className="bg-cream-base text-ink overflow-x-hidden">
       {/* HERO INTRO */}
       <RevealSection className="relative flex min-h-[calc(100svh-4rem)] items-center overflow-hidden bg-cream-base px-8 py-16 sm:px-10 sm:py-20 lg:px-20">
         <div className="pointer-events-none absolute left-1/2 top-14 h-56 w-[min(92vw,998px)] -translate-x-1/2 rounded-full bg-[radial-gradient(ellipse_at_center,rgba(200,75,49,0.14),rgba(245,240,232,0)_70%)]" />
@@ -73,7 +66,7 @@ export default function Home() {
                 src={profileImage640}
                 srcSet={`${profileImage320} 320w, ${profileImage640} 640w`}
                 sizes="(max-width: 640px) 80vw, 320px"
-                alt="Harsha Reddy"
+                alt={profile.name}
                 width="640"
                 height="640"
                 fetchPriority="high"
@@ -82,21 +75,21 @@ export default function Home() {
                 className="h-full w-full rounded-full object-cover border border-cream-line"
               />
             </div>
-            <p className="text-center font-mono text-xs text-ink-muted">• Bangalore, India</p>
+            <p className="text-center font-mono text-xs text-ink-muted">• {profile.location}</p>
           </div>
 
           <div className="mx-auto w-full max-w-[461px] lg:mx-0">
             <p className="font-mono text-[11px] uppercase tracking-[1.1px] text-ink-muted">
-              FullStack Dev · DevOps · Cloud
+              Full-stack developer · CS student
             </p>
 
             <h1 className="mt-8 font-display text-[44px] leading-[1.08] text-ink sm:text-[52px] sm:leading-[57.2px]">
-              Harsha Reddy
+              {profile.name}
             </h1>
 
             <p className="mt-6 max-w-[34ch] font-body text-[16px] leading-[1.75] text-ink-muted sm:max-w-[408px] sm:text-[17px] sm:leading-[29.75px]">
-              I build cloud-ready applications and the infrastructure behind them, from code to
-              deployment pipelines, with reliability and clarity as the baseline.
+              I build full-stack products end to end, from protocol and schema to deployment,
+              including real-time systems and sites that are live and maintained.
             </p>
 
             <div className="mt-10 grid max-w-[430px] grid-cols-3">
@@ -114,7 +107,16 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="mt-11 flex flex-col items-start gap-[9px] font-mono text-[11px] leading-[16.5px] text-ink-muted">
+            <a
+              href={profile.resume.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-8 inline-flex min-h-[44px] items-center font-ui text-[15px] text-ink underline decoration-accent-red decoration-2 underline-offset-4 transition-colors hover:text-accent-red"
+            >
+              → Download resume
+            </a>
+
+            <div className="mt-6 flex flex-col items-start gap-[9px] font-mono text-[11px] leading-[16.5px] text-ink-muted">
               <span>scroll to explore</span>
               <motion.span
                 animate={{ y: [0, 4, 0] }}
@@ -141,8 +143,8 @@ export default function Home() {
             </h2>
 
             <p className="mt-6 max-w-[38ch] font-body text-[16px] leading-[1.72] text-ink-muted sm:max-w-[475px] sm:text-[18px] sm:leading-[30.6px]">
-              This lab tracks engineering work across application delivery, cloud operations,
-              and practical automation for real deployment environments.
+              This lab holds the things I have built, ranked, the lessons I wrote
+              down along the way, and the work I have done for real clients.
             </p>
 
             <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-3 sm:mt-9 sm:gap-8">
@@ -165,11 +167,11 @@ export default function Home() {
             <div className="graph-paper pointer-events-none absolute inset-0 opacity-20" />
 
             <div className="relative">
-              <p className="font-mono text-[11px] uppercase tracking-[0.88px] text-ink-muted">Latest Entries</p>
+              <p className="font-mono text-[11px] uppercase tracking-[0.88px] text-ink-muted">Top Ranked</p>
               <div className="mt-4 border-b border-cream-line" />
 
               <div className="mt-3 space-y-3">
-                {latestEntries.map((entry) => (
+                {topEntries.map((entry) => (
                   <div key={entry.id} className="flex items-center justify-between gap-3">
                     <span className="shrink-0 font-mono text-[13px] leading-[19.5px] text-ink-muted">
                       [{entry.id}]
@@ -262,9 +264,31 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Placeholder Image Area */}
-                <div className="relative aspect-video bg-cream-line flex items-center justify-center">
-                  <span className="font-mono text-xs text-ink-muted">16:9 Preview</span>
+                <div className="relative flex flex-col justify-center gap-6 overflow-hidden border border-cream-line bg-cream-base p-6 sm:p-8">
+                  <div className="graph-paper pointer-events-none absolute inset-0 opacity-20" />
+                  <div className="relative">
+                    <p className="font-mono text-[11px] uppercase tracking-[0.88px] text-ink-muted">Stack</p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {featuredExperiment.stack.map((tag) => (
+                        <span key={tag} className="rounded-full border border-cream-line px-2.5 py-1 font-mono text-[11px] leading-[16px] text-ink-muted">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  {featuredExperiment.liveUrl && (
+                    <div className="relative">
+                      <p className="font-mono text-[11px] uppercase tracking-[0.88px] text-ink-muted">Live</p>
+                      <a
+                        href={featuredExperiment.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-2 inline-flex min-h-[44px] items-center font-mono text-sm text-accent-red"
+                      >
+                        {featuredExperiment.liveUrl.replace(/^https?:\/\//, '')} ↗
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
             </article>
@@ -306,7 +330,7 @@ export default function Home() {
       <RevealSection id="field-work" className="bg-cream-base px-8 py-20 sm:px-10 sm:py-24 lg:px-14">
         <div className="mx-auto w-full max-w-[998px]">
           <SectionHeader
-            label={`[ ${fieldwork.length} engagements · confidential ]`}
+            label={`[ ${fieldwork.length} engagements · ${restrictedCount} restricted ]`}
             title="Field Work"
           />
 
@@ -318,9 +342,11 @@ export default function Home() {
                     <div className="flex h-full w-full items-center justify-center bg-cream-line">
                       <span className="font-mono text-xs text-ink-muted">{item.id}</span>
                     </div>
-                    <div className="absolute inset-0 flex items-center justify-center bg-ink/65 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                      <span className="font-mono text-xs uppercase tracking-[0.8px] text-cream-base">[restricted]</span>
-                    </div>
+                    {item.restricted && (
+                      <div className="absolute inset-0 flex items-center justify-center bg-ink/65 opacity-0 transition-opacity duration-200 group-focus-within:opacity-100 group-hover:opacity-100">
+                        <span className="font-mono text-xs uppercase tracking-[0.8px] text-cream-base">[restricted]</span>
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -339,7 +365,7 @@ export default function Home() {
                   >
                     <span>→ View case study</span>
                     <span aria-hidden="true">↗</span>
-                    <span>[restricted]</span>
+                    {item.restricted && <span>[restricted]</span>}
                   </Link>
                 </div>
               </article>
@@ -365,7 +391,7 @@ export default function Home() {
               <h2 className="font-display text-[36px] leading-[1.14] text-ink sm:text-[50px] sm:leading-[1.08] lg:text-[60px] lg:leading-[1.06]">
                 CS student. Full-stack builder.
                 <br />
-                Shipping things since 2023.
+                Shipping things since 2025.
               </h2>
             </div>
             <Link
@@ -379,6 +405,6 @@ export default function Home() {
       </RevealSection>
 
       <ScrollToTop />
-    </main>
+    </div>
   )
 }

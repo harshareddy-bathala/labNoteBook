@@ -22,6 +22,7 @@ const experiments = defineCollection({
     liveUrl: s.string().optional(),
     featured: s.boolean().default(false),
     published: s.boolean().default(true),
+    restricted: s.boolean().default(false), // source is private: show [restricted], no repo link
     code: s.mdx(),
   }),
 })
@@ -39,6 +40,7 @@ const observations = defineCollection({
     tags: s.array(s.string()),
     status: s.enum(['published', 'draft']),
     featured: s.boolean().default(false),
+    related: s.array(s.string()).default([]), // experiment ids, e.g. "EXP-001"
     toc: s.toc(),
     code: s.mdx(),
   }),

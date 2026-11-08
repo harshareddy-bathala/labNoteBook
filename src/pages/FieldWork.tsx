@@ -8,20 +8,20 @@ const linkArrowPath = 'M5 0V12M5 0L9 4M5 0L1 4'
 export default function FieldWork() {
   usePageMeta({
     title: 'Field Work',
-    description: 'Professional client engagements and case studies.',
+    description: 'Client work and case studies, including the live Bathala Enterprises real-estate platform.',
   })
 
-  const hasRestrictedEntries = fieldwork.some((engagement) => engagement.restricted)
+  const restrictedCount = fieldwork.filter((engagement) => engagement.restricted).length
 
   return (
-    <main className="overflow-x-hidden bg-cream-base text-ink">
+    <div className="overflow-x-hidden bg-cream-base text-ink">
       <section className="mx-auto w-full max-w-[1160px] px-8 pb-16 pt-20 sm:px-10 sm:pb-20 sm:pt-24 lg:px-14 lg:pb-24 xl:px-16">
         <div className="mb-10 sm:mb-12">
           <h1 className="font-display text-[46px] leading-[1.02] tracking-tight text-ink sm:text-[56px] sm:leading-[61.6px]">
             Field Work
           </h1>
           <p className="mt-4 font-mono text-[12px] leading-[18px] text-ink-muted sm:text-[13px] sm:leading-[19.5px]">
-            [ {fieldwork.length} engagements · {hasRestrictedEntries ? 'confidential' : 'public'} ]
+            [ {fieldwork.length} engagements · {restrictedCount} restricted ]
           </p>
         </div>
 
@@ -38,7 +38,7 @@ export default function FieldWork() {
                       <span className="font-mono text-xs text-ink-muted">{engagement.id}</span>
                     </div>
                     {engagement.restricted && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-ink/65 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                      <div className="absolute inset-0 flex items-center justify-center bg-ink/65 opacity-0 transition-opacity duration-200 group-focus-within:opacity-100 group-hover:opacity-100">
                         <span className="font-mono text-xs uppercase tracking-[0.8px] text-cream-base">[restricted]</span>
                       </div>
                     )}
@@ -81,6 +81,6 @@ export default function FieldWork() {
           />
         )}
       </section>
-    </main>
+    </div>
   )
 }

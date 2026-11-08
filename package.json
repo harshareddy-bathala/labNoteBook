@@ -6,7 +6,7 @@
   "scripts": {
     "predev": "velite build",
     "dev": "vite",
-    "prebuild": "velite build",
+    "prebuild": "velite build && node scripts/generate-sitemap.js",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",

@@ -1,0 +1,59 @@
+---
+id: "OBS-001"
+slug: "absence-is-not-a-miss"
+title: "Absence Is Not a Miss: The One Rule Meridian's Reliability Numbers Depend On"
+excerpt: "If a station was switched off, a pass it did not receive is not a failure. Getting that one distinction right, in exactly one place, decides whether every reliability figure downstream means anything."
+date: "Nov 6, 2026"
+readTime: 4
+tags: ["reliability", "meridian", "design"]
+status: "published"
+featured: true
+related: ["EXP-001"]
+---
+
+When I started the reliability module for Meridian, the obvious definition of a
+missed pass was the obvious one: the schedule said receive, and no data came back.
+
+That definition is wrong, and it took me longer than it should have to see why.
+
+## The failure that hides inside a metric
+
+Imagine a station that loses power for an afternoon. Under the obvious definition,
+every pass scheduled in that window is a miss. The reliability figure drops, the
+dashboard turns red, and the platform concludes that its scheduler or its predictions
+got worse.
+
+Nothing about the scheduling was wrong. The station was not listening. Counting that
+as a failure does two kinds of damage. It blames the wrong component, and it teaches
+anyone reading the numbers to distrust them.
+
+## The rule
+
+A pass counts as missed only if the station's heartbeat confirms it was listening:
+the right target, the right frequency, the right time. No heartbeat, no verdict.
+
+```text
+scheduled  +  heartbeat confirms listening  +  no usable data   ->  miss
+scheduled  +  no heartbeat                                       ->  unknown
+```
+
+The second row is deliberate. "We do not know" is a real answer, and it is better to
+report it than to turn it into a number that looks precise.
+
+## One place, not everywhere
+
+The part I care about most is where the rule lives. It is enforced in exactly one
+place, inside the reliability module. Every report, chart and budget reads the
+verdict from there. If the definition were repeated in each consumer, the first time
+someone adjusted one copy the figures would drift apart and nobody would notice.
+
+## What it changed
+
+The same idea shows up elsewhere in the project. Every loss is given a cause
+(obstruction, interference, timing, receiver, satellite silent), or it is labelled
+undetermined when the evidence does not support one. Reception is checked with a
+calibrated confidence and tested against what actually happened.
+
+A reliability system is only useful if it can say "I cannot tell". Building that in
+from the start was cheaper than trying to bolt it on after the numbers were already
+in people's heads.

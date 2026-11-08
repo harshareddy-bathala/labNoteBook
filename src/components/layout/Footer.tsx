@@ -1,13 +1,8 @@
 import { useRef } from 'react'
 import { motion } from 'framer-motion'
 import { useRevealOnce } from '../../hooks/useRevealOnce'
+import { profile, socialLinks } from '../../data/profile'
 
-const socialLinks = [
-  { label: 'Email', href: 'mailto:harshareddy.bathala@gmail.com' },
-  { label: 'GitHub', href: 'https://github.com/harshareddy-bathala' },
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/harshareddy19' },
-  { label: 'Instagram', href: 'https://instagram.com/soltrlx' },
-]
 
 export default function Footer() {
   const textRef = useRef<HTMLDivElement>(null)
@@ -52,8 +47,8 @@ export default function Footer() {
               <span key={link.label} className="flex items-center gap-x-6">
                 <a
                   href={link.href}
-                  target={link.href.startsWith('mailto:') ? undefined : '_blank'}
-                  rel={link.href.startsWith('mailto:') ? undefined : 'noopener noreferrer'}
+                  target={link.href.startsWith('http') ? '_blank' : undefined}
+                  rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   className="transition-colors hover:text-cream-base"
                 >
                   {link.label}
@@ -66,7 +61,7 @@ export default function Footer() {
           </div>
 
           <p className="mt-3 pb-4 text-center font-mono text-[11px] text-cream-base/70">
-            © Harsha Reddy — Ongoing
+            © {profile.name} — Ongoing
           </p>
         </div>
       </div>

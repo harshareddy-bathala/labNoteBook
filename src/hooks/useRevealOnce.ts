@@ -52,17 +52,16 @@ export function useRevealOnce<T extends Element>(
   }: UseRevealOnceOptions = {}
 ): boolean {
   const prefersReducedMotion = useReducedMotion()
-  const [hasRevealed, setHasRevealed] = useState(() => {
-    if (prefersReducedMotion) {
-      return true
-    }
+  const [observedReveal, setObservedReveal] = useState(false)
 
-    if (typeof window === 'undefined') {
-      return false
-    }
-
-    return disableOnCoarsePointer && window.matchMedia('(pointer: coarse)').matches
-  })
+  // Reduced motion and coarse pointers skip the animation entirely, so they count as
+  // already revealed. Derived during render instead of set from an effect.
+  const skipReveal =
+    Boolean(prefersReducedMotion) ||
+    (disableOnCoarsePointer &&
+      typeof window !== 'undefined' &&
+      window.matchMedia('(pointer: coarse)').matches)
+  const hasRevealed = observedReveal || skipReveal
 
   useEffect(() => {
     const element = elementRef.current
@@ -70,27 +69,19 @@ export function useRevealOnce<T extends Element>(
       return
     }
 
-    const coarsePointer =
-      disableOnCoarsePointer && window.matchMedia('(pointer: coarse)').matches
-
-    if (prefersReducedMotion || coarsePointer) {
-      setHasRevealed(true)
-      return
-    }
-
     const observer = getSharedObserver(rootMargin, threshold)
-    
+
     callbackMap.set(element, () => {
-      setHasRevealed(true)
+      setObservedReveal(true)
     })
-    
+
     observer.observe(element)
 
     return () => {
       observer.unobserve(element)
       callbackMap.delete(element)
     }
-  }, [disableOnCoarsePointer, elementRef, hasRevealed, prefersReducedMotion, rootMargin, threshold])
+  }, [elementRef, hasRevealed, rootMargin, threshold])
 
   return hasRevealed
 }

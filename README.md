@@ -1,73 +1,38 @@
-# React + TypeScript + Vite
+# The Lab Notebook
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal site of Harshavardhan Reddy: ranked projects, written-up lessons and client work.
+Live at https://bathalaharsha.vercel.app
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Vite, React 19, TypeScript, React Router, Tailwind, Framer Motion. Content is MDX compiled
+by [Velite](https://velite.js.org) into typed data at build time.
 
-## React Compiler
+## Content
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Section | Where | Notes |
+| --- | --- | --- |
+| Experiments (projects) | `src/content/experiments/*.mdx` | `id` is the rank: `EXP-001` is first. `restricted: true` marks a private repo and shows `[restricted]`. |
+| Observations (posts) | `src/content/observations/*.mdx` | `related` lists experiment ids to link. |
+| Field Work | `src/content/fieldwork/*.mdx` | `restricted` defaults to `true`; set it explicitly. |
+| Achievements | `src/data/achievements.ts` | Shown on About. |
+| Links, email, resume | `src/data/profile.ts` | Single source for Navbar, Footer and About. |
+| Also built | `src/data/alsoBuilt.ts` | Small projects without a write-up. |
 
-## Expanding the ESLint configuration
+The resume is `public/Harshavardhan-Reddy-Resume.pdf`.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Develop
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install --ignore-scripts   # see note below
+npm run dev
+npm run lint
+npm run build                  # velite build, sitemap, tsc, vite build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+`sharp` is only used by `scripts/optimize-image.js` and `scripts/generate-og.js`. If
+`npm install` fails while building it from source, `--ignore-scripts` installs its
+prebuilt binaries without running the failing step.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+`npm run build` regenerates `public/sitemap.xml` from the content. `node scripts/generate-og.js`
+re-renders `public/og.png`.

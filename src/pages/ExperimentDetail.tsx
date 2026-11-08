@@ -2,7 +2,7 @@ import { Link, Navigate, useParams } from 'react-router-dom'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { experiments, getBySlug } from '../data/experiments'
 import { mdxComponents } from '../components/mdx/MDXComponents'
-import { useMDXComponent } from '../components/mdx/useMDXComponent'
+import { MDXContent } from '../components/mdx/MDXContent'
 import { usePageMeta } from '../hooks/usePageMeta'
 import ErrorBoundary from '../components/ui/ErrorBoundary'
 import ContentSkeleton from '../components/ui/ContentSkeleton'
@@ -11,7 +11,6 @@ import ContentError from '../components/ui/ContentError'
 export default function ExperimentDetail() {
   const { slug } = useParams<{ slug: string }>()
   const experiment = slug ? getBySlug(slug) : undefined
-  const Content = useMDXComponent(experiment?.code ?? '')
   const hasContent = Boolean(experiment?.code)
 
   usePageMeta({
@@ -43,7 +42,7 @@ export default function ExperimentDetail() {
         style={{ scaleX }}
       />
 
-      <main className="overflow-x-hidden bg-cream-base">
+      <div className="overflow-x-hidden bg-cream-base">
         <div className="mx-auto w-full max-w-[1160px] px-4 pb-20 sm:px-8 sm:pb-24 lg:px-14 xl:px-16">
           <header className="pt-10 sm:pt-14">
             <Link
@@ -55,11 +54,12 @@ export default function ExperimentDetail() {
             </Link>
 
             <div className="mt-5 grid gap-2 font-mono text-[11px] leading-[16.5px] text-ink-muted sm:mt-6 sm:flex sm:flex-wrap sm:items-center sm:gap-x-8 sm:gap-y-2 sm:text-xs sm:leading-[18px]">
-              <span className="tracking-[0.72px] uppercase">EXPERIMENT NO. {experiment.id.replace('EXP-', '00')}</span>
+              <span className="tracking-[0.72px] uppercase">EXPERIMENT NO. {experiment.id.replace('EXP-', '')}</span>
               <span>
                 Status: <span className={statusTextClass}>[ {statusLabel} ]</span>
               </span>
               <span>Started: {experiment.startDate}</span>
+              {experiment.restricted && <span>Source: [ restricted ]</span>}
               <span className="[overflow-wrap:anywhere]">Tags: {summaryTags}</span>
             </div>
 
@@ -81,7 +81,7 @@ export default function ExperimentDetail() {
                 }
               >
                 {hasContent ? (
-                  <Content components={mdxComponents} />
+                  <MDXContent code={experiment.code} components={mdxComponents} />
                 ) : (
                   <ContentSkeleton type="article" />
                 )}
@@ -126,6 +126,11 @@ export default function ExperimentDetail() {
                         → Github
                       </a>
                     )}
+                    {experiment.restricted && !experiment.githubUrl && (
+                      <p className="font-mono text-xs leading-[18px] text-ink-muted">
+                        Source is private. Happy to walk through it on a call.
+                      </p>
+                    )}
                     {experiment.liveUrl && (
                       <a
                         href={experiment.liveUrl}
@@ -133,7 +138,7 @@ export default function ExperimentDetail() {
                         rel="noopener noreferrer"
                         className="inline-flex min-h-[44px] items-center font-ui text-sm leading-[21px] text-accent-red no-underline"
                       >
-                        → Live Demo
+                        → Live site
                       </a>
                     )}
                   </div>
@@ -157,7 +162,7 @@ export default function ExperimentDetail() {
             </aside>
           </div>
         </div>
-      </main>
+      </div>
     </>
   )
 }

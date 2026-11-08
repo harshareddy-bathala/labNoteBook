@@ -1,0 +1,41 @@
+---
+id: "EXP-003"
+slug: "alisu"
+title: "Alisu"
+description: "A multilingual voice assistant for Karnataka's 1092 citizen helpline. It understands Kannada, Hindi and English, files the complaint and gives back a reference ID."
+status: "archived"
+startDate: "Mar 2026"
+year: 2026
+tags: ["real-time", "voice", "full-stack"]
+stack: ["TypeScript", "Fastify", "React", "Vite", "WebSockets", "Twilio"]
+abstract: "Citizens call, speak in their own language, and get a filed complaint, the department that will follow up, and a reference number. Alisu asks only for what is missing and restates what it heard before filing."
+githubUrl: "https://github.com/harshareddy-bathala/alisu"
+liveUrl: "https://alisu.vercel.app/"
+featured: false
+published: true
+restricted: false
+---
+
+## Abstract
+
+Alisu is a voice agent for the Karnataka 1092 helpline. A caller speaks Kannada,
+Hindi or English. The agent works out the issue, asks only for what is missing,
+confirms what it heard, files a complaint with a unique ID and says which
+department will follow up. Every call is transcribed, translated and stored for a
+human agent to review.
+
+## What I built
+
+- A Fastify and TypeScript server that streams PCM16 audio over WebSockets.
+- Audio handling for two sources: a browser test client at 48 kHz, downsampled to
+  16 kHz, and telephony audio at 8 kHz mu-law, decoded and upsampled to the same
+  format.
+- A five-step conversation state machine, so the agent cannot skip confirmation.
+- A React and Vite dashboard with live transcripts and complaint cards.
+
+## Where it stands
+
+It was my entry for the Government of Karnataka hackathon on HackerEarth and reached
+round two of three. Connecting a real telephony provider is one environment
+variable. It is a hackathon build with about ten commits, and I would not call it
+production.

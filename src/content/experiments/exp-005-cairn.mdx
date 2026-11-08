@@ -1,0 +1,39 @@
+---
+id: "EXP-005"
+slug: "cairn"
+title: "Cairn"
+description: "A self-paced placement-prep trail. One stone per active day, no calendar, nothing ever overdue."
+status: "active"
+startDate: "Sep 2026"
+year: 2026
+tags: ["product", "full-stack", "habits"]
+stack: ["Next.js 16", "React 19", "Drizzle", "Postgres", "Auth.js", "Cloudflare Workers"]
+abstract: "A good 13-week roadmap with hard dates failed me twice. Cairn is the same roadmap with the delivery mechanism fixed: progress is counted in days I actually showed up, not days that passed."
+githubUrl: "https://github.com/harshareddy-bathala/cairn"
+featured: false
+published: true
+restricted: false
+---
+
+## Abstract
+
+I built Cairn because my own placement-prep plan kept dying. It had no reminders, no
+accountability, no curated resources, and it turned red the moment a day slipped.
+Cairn keeps the roadmap and changes how time works.
+
+## The idea
+
+Progress is indexed by `day_index`, the days I actually closed a log, not by the wall
+clock. A journey week is seven active days, so every quota corrects itself. Skipping
+three days costs a streak and nothing else. A catch-up toggle lets one strong day
+absorb two skipped ones, and a bad-day button shrinks the plan to a minimum chain so
+the streak survives.
+
+## What I built
+
+- Next.js 16 on React 19 with Drizzle and Postgres, using Neon in production.
+- Google sign-in through Auth.js, gated by an allowlist.
+- Telegram reminders driven by a Cloudflare Worker cron trigger.
+- The curriculum lives in typed TypeScript and is seeded into the database
+  idempotently. **The database is a cache and git is the source of truth.** Seeding
+  runs in one transaction and never deletes on its own.

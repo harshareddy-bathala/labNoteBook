@@ -1,6 +1,8 @@
 import { useRef, useState, type ReactNode } from 'react'
 import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { currently } from '../data/currently'
+import { achievements } from '../data/achievements'
+import { profile } from '../data/profile'
 import { usePageMeta } from '../hooks/usePageMeta'
 import profileImage from '../assets/profile.webp'
 
@@ -9,7 +11,7 @@ const education = [
     year: '2024-27',
     degree: 'Diploma, Computer Technology and IT Infrastructure',
     institution: 'NTTF NEC, Bangalore',
-    score: 'CGPA 9.4',
+    score: 'CGPA 9.38 · Rank 1',
   },
   {
     year: '2023-24',
@@ -20,48 +22,32 @@ const education = [
 ]
 
 const toolkit = [
-  { category: 'Languages', items: 'TypeScript · Python · C++ · Dart' },
-  { category: 'Frameworks', items: 'React · Fastify · Prisma · Flutter' },
-  { category: 'Databases', items: 'PostgreSQL · SQLite · Firebase' },
-  { category: 'Tools', items: 'Figma · Git · Docker · VS Code · Arduino IDE' },
-  { category: 'Platforms', items: 'Vercel · Railway · Android · ESP8266' },
+  { category: 'Languages', items: 'TypeScript/JavaScript · Python · C/C++ · Java · SQL · Bash' },
+  { category: 'Frontend', items: 'React · Next.js (App Router) · Vite · Tailwind · TanStack Query · Framer Motion' },
+  { category: 'Backend', items: 'FastAPI · Node.js · Fastify · Hono · Flask · WebSockets · Server-Sent Events · Zod' },
+  { category: 'Databases', items: 'PostgreSQL · TimescaleDB · Supabase · MongoDB · Prisma · Redis · SQLite' },
+  { category: 'Tools', items: 'Docker · Git · GitHub Actions · Playwright · Vercel · Cloudflare · AWS · Linux · Prometheus · Grafana' },
 ]
 
 const coursework = [
-  'Data Structures',
-  'Algorithms',
-  'Database Systems',
-  'Computer Networks',
-  'IoT Systems',
+  'Data Structures & Algorithms',
   'Operating Systems',
-  'Software Engineering',
-  'Web Technologies',
-  'Machine Learning Fundamentals',
-]
-
-const certifications = [
-  {
-    title: 'OCI Generative AI Professional',
-    issuer: 'Oracle',
-    date: 'Oct 2025',
-  },
-  {
-    title: 'OCI Data Science',
-    issuer: 'Oracle',
-    date: 'Oct 2025',
-  },
-  {
-    title: 'CCNA: Enterprise Networking and Security',
-    issuer: 'Cisco',
-    date: 'Sep 2025',
-  },
+  'Computer Networks',
+  'Database Systems',
+  'Database Administration',
+  'Object-Oriented Programming',
+  'Software Testing',
+  'Cloud Computing',
+  'DevOps',
+  'Cyber Security',
 ]
 
 const correspondence = [
-  { label: 'Email', value: 'harshareddy.bathala@gmail.com', href: 'mailto:harshareddy.bathala@gmail.com', action: 'copy' as const },
-  { label: 'GitHub', value: 'harshareddy-bathala', href: 'https://github.com/harshareddy-bathala', action: 'visit' as const },
-  { label: 'LinkedIn', value: 'harshareddy19', href: 'https://linkedin.com/in/harshareddy19', action: 'visit' as const },
-  { label: 'Instagram', value: 'soltrlx', href: 'https://instagram.com/soltrlx', action: 'visit' as const },
+  { label: 'Email', value: profile.email, href: `mailto:${profile.email}`, action: 'copy' as const },
+  { label: 'GitHub', value: profile.github.label, href: profile.github.href, action: 'visit' as const },
+  { label: 'LinkedIn', value: profile.linkedin.label, href: profile.linkedin.href, action: 'visit' as const },
+  { label: 'Instagram', value: profile.instagram.label, href: profile.instagram.href, action: 'visit' as const },
+  { label: 'Resume', value: 'Harshavardhan-Reddy-Resume.pdf', href: profile.resume.href, action: 'download' as const },
 ]
 
 type RevealSectionProps = {
@@ -91,14 +77,14 @@ function RevealSection({ children, className = '', delay = 0 }: RevealSectionPro
 export default function About() {
   usePageMeta({
     title: 'About',
-    description: 'Learn about Harsha Vardhan Bathala - focused on DevOps, cloud, and infrastructure engineering.',
+    description: 'About Harshavardhan Reddy: full-stack developer and CS student in Bangalore. Education, achievements, toolkit and contact.',
   })
 
   const [showCopiedToast, setShowCopiedToast] = useState(false)
 
   const handleCopyEmail = async () => {
     try {
-      await navigator.clipboard.writeText('harshareddy.bathala@gmail.com')
+      await navigator.clipboard.writeText(profile.email)
     } catch {
       return
     }
@@ -108,7 +94,7 @@ export default function About() {
   }
 
   return (
-    <main className="overflow-x-hidden bg-cream-base text-ink">
+    <div className="overflow-x-hidden bg-cream-base text-ink">
       <RevealSection className="w-full border-b border-cream-line bg-cream-base px-8 pt-9 pb-14 sm:px-10 sm:pt-11 sm:pb-16 lg:px-20 lg:pt-12 lg:pb-28">
         <div className="mx-auto w-full max-w-[998px]">
           <p className="font-mono text-[11px] uppercase tracking-[0.88px] text-ink-muted">
@@ -130,7 +116,7 @@ export default function About() {
               >
                 <img
                   src={profileImage}
-                  alt="Harsha Reddy"
+                  alt={profile.name}
                   width="400"
                   height="400"
                   fetchPriority="high"
@@ -143,15 +129,17 @@ export default function About() {
 
             <div className="max-w-[545px]">
               <p className="font-mono text-[13px] leading-[19.5px] text-ink-muted">
-                Based in Bangalore, India
+                Based in {profile.location}
               </p>
               <h2 className="mt-3 font-display text-[36px] leading-[1.12] text-ink sm:text-[48px] sm:leading-[55.2px]">
-                Diploma student. DevOps and cloud focused.
+                Full-stack developer. Systems minded.
               </h2>
               <p className="mt-6 max-w-[56ch] font-body text-[16px] leading-[1.75] text-ink sm:text-[18px] sm:leading-[31.5px]">
-                Pursuing a Diploma in Computer Technology and IT Infrastructure at NTTF NEC
-                (2024-27), Bangalore, with 9.4 CGPA. Focused on DevOps cloud workflows,
-                infrastructure automation, and secure networking.
+                I ship React and Next.js frontends against Python and Node.js APIs backed by
+                PostgreSQL, and I like owning a feature from protocol and schema through to
+                deployment. I am studying Computer Technology and IT Infrastructure at NTTF NEC,
+                Bangalore (2024-27), ranked first in my class. Open to a part-time remote
+                internship now and a full-time one from January 2027.
               </p>
             </div>
           </div>
@@ -189,20 +177,34 @@ export default function About() {
 
       <RevealSection className="w-full bg-cream-base px-8 py-12 sm:px-10 sm:py-14 lg:px-20 lg:py-16" delay={0.05}>
         <div className="mx-auto w-full max-w-[998px]">
-          <p className="font-mono text-[11px] uppercase tracking-[0.88px] text-ink-muted">Certifications</p>
+          <p className="font-mono text-[11px] uppercase tracking-[0.88px] text-ink-muted">Achievements &amp; Certifications</p>
           <div className="mt-8 border-t border-cream-line">
-            {certifications.map((entry) => (
+            {achievements.map((entry) => (
               <article key={entry.title} className="border-b border-cream-line py-5">
                 <div className="flex items-center justify-between gap-3 lg:hidden">
                   <p className="font-mono text-[11px] leading-[16px] text-ink-muted">{entry.issuer}</p>
                   <p className="font-mono text-[11px] leading-[16px] text-ink">{entry.date}</p>
                 </div>
                 <h3 className="mt-2 font-display text-[20px] leading-[1.25] text-ink sm:text-[22px] sm:leading-[33px] lg:hidden">
-                  {entry.title}
+                  {entry.href ? (
+                    <a href={entry.href} target="_blank" rel="noopener noreferrer" className="text-ink underline decoration-accent-red underline-offset-4">
+                      {entry.title}
+                    </a>
+                  ) : (
+                    entry.title
+                  )}
                 </h3>
 
-                <div className="hidden items-center lg:grid lg:min-h-[74px] lg:grid-cols-[1fr_150px_90px] lg:gap-5">
-                  <h3 className="font-display text-[22px] leading-[33px] text-ink">{entry.title}</h3>
+                <div className="hidden items-center lg:grid lg:min-h-[74px] lg:grid-cols-[1fr_220px_90px] lg:gap-5">
+                  <h3 className="font-display text-[22px] leading-[33px] text-ink">
+                    {entry.href ? (
+                      <a href={entry.href} target="_blank" rel="noopener noreferrer" className="text-ink underline decoration-accent-red underline-offset-4">
+                        {entry.title}
+                      </a>
+                    ) : (
+                      entry.title
+                    )}
+                  </h3>
                   <p className="font-body text-[15px] leading-[22.5px] text-ink-muted">{entry.issuer}</p>
                   <p className="justify-self-end font-mono text-xs text-ink">{entry.date}</p>
                 </div>
@@ -300,7 +302,7 @@ export default function About() {
                     rel="noopener noreferrer"
                     className="mt-2 inline-flex min-h-[44px] items-center font-mono text-[12px] leading-[18px] text-accent-red no-underline transition-colors duration-200 hover:text-ink focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent-red lg:mt-0"
                   >
-                    → Visit
+                    {item.action === 'download' ? '→ Open' : '→ Visit'}
                   </a>
                 )}
               </div>
@@ -318,6 +320,6 @@ export default function About() {
       >
         Copied!
       </div>
-    </main>
+    </div>
   )
 }

@@ -9,7 +9,7 @@ export default function NotFound() {
   })
 
   return (
-    <main className="flex min-h-[calc(100svh-4rem)] items-center justify-center bg-cream-base px-8 text-center">
+    <div className="flex min-h-[calc(100svh-4rem)] items-center justify-center bg-cream-base px-8 text-center">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -54,6 +54,6 @@ export default function NotFound() {
           </p>
         </div>
       </motion.div>
-    </main>
+    </div>
   )
 }
