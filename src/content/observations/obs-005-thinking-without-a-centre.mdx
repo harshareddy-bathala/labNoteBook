@@ -1,0 +1,74 @@
+---
+id: "OBS-005"
+slug: "thinking-without-a-centre"
+title: "Thinking Without a Centre: What a Brainless Plant Taught Me About Coordination"
+excerpt: "In PhytoNet every tissue runs the same small rule and talks to its neighbours by electrical signal. No central controller, no neural network. It beat the neural baselines exactly where coordination mattered."
+date: "Nov 8, 2026"
+readTime: 6
+tags: ["research", "phytonet", "learning"]
+status: "published"
+featured: false
+related: ["EXP-007"]
+---
+
+Most of the AI I read about assumes a centre. One model sees everything, decides, and
+issues commands. A plant has no such thing. It has no brain, no central unit, and it
+still defends itself against a grazing animal, steers towards light and spreads its
+roots. PhytoNet started as a question about that.
+
+## The question
+
+If a plant's body is a graph of tissues and I let the tissues learn how to talk to
+each other, do they invent something like real plant signalling, or something new?
+
+## The setup
+
+Each tissue reads its local environment, exchanges signals with its neighbours and
+acts: grow, thicken, steer or defend. Reward comes from survival, biomass and
+reproduction.
+
+The headline controller has three deliberate constraints:
+
+- **Decentralised.** Every tissue runs the same rule. There is no coordinator.
+- **Interpretable.** The rule is small enough to read, not a network of weights.
+- **Electrical.** Tissues talk through membrane potentials, action potentials and
+  systemic wound signals, as a real plant does.
+
+The rule is evolved with the cross-entropy method, with no backpropagation. For
+comparison I kept two neural controllers as baselines: a PPO policy and a graph
+network with learnable messages between tissues.
+
+## What happened
+
+Across multiple seeds and with statistical tests, the brain-free controller beat the
+neural baselines overall. The gap was largest under herbivory, a scenario with
+grazing damage, where it came out ahead by 2.83 (p = 0.008). The wound-to-defence
+electrical response is what pays off there.
+
+The learned signalling also showed three signatures that real plants show:
+
+1. **Systemic spread.** A local wound produces a response far from the wound.
+2. **A slow, finite-speed wave.** The signal travels, it does not teleport.
+3. **A shoot-directional response.** The reaction is directed along the shoot.
+
+## The finding I trust most
+
+Signalling helped for **coordination problems** such as defence. It did not help with
+plain environmental variability. When the challenge is only that conditions change,
+a tissue can respond to its own local reading. When the challenge is that the right
+action for one part depends on what is happening somewhere else, something has to
+travel between the parts.
+
+That is a narrow claim and I would rather keep it narrow. It does not say a
+decentralised rule beats a learned policy in general. It says where communication
+earned its cost in this setting, and where it did not.
+
+## Why it matters to me
+
+Thinking of intelligence as one big model deciding for everything is a design choice,
+not a necessity. A system of simple parts, each acting on local information and a
+cheap shared signal, can handle problems that need coordination. It is also easier to
+inspect, because the rule is one thing I can read.
+
+The write-up, with methods, figures and results, is in the repository. The
+repository is private, and I am happy to walk through it.

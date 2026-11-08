@@ -1,0 +1,59 @@
+---
+id: "EXP-001"
+slug: "meridian"
+title: "Meridian"
+description: "Predictive scheduling and reliability for satellite ground stations, plus MSP, an open protocol any receiving station can implement."
+status: "active"
+startDate: "Jul 2026"
+year: 2026
+tags: ["systems", "protocol", "reliability"]
+stack: ["Python", "FastAPI", "PostgreSQL", "TimescaleDB", "Docker", "Prometheus"]
+abstract: "A satellite passes overhead for a few minutes and a missed pass never comes back. Meridian predicts which passes are worth catching, schedules them across a network of stations, checks what was received, and explains every loss."
+githubUrl: "https://github.com/harshareddy-bathala/Meridian"
+liveUrl: "https://meridian.org.in"
+featured: true
+published: true
+restricted: false
+---
+
+## Abstract
+
+Satellite passes are short and they do not repeat. If a station is pointed at the
+wrong one, that data is gone. Meridian is open software that decides which passes
+are worth receiving, catches them, checks the result, and tells the owner what
+happened. It is my final-year project, built with a team of three, and it is
+written to outlast the course.
+
+## Problem
+
+Ground stations usually chase the highest pass. Elevation is a weak proxy for
+usable data. Element-set age, the station's own history and local interference all
+matter, and nobody reports afterwards whether the pass actually worked.
+
+## What I built
+
+- Six modules on FastAPI and PostgreSQL/TimescaleDB: orbit propagation, yield
+  prediction, a scheduler, a station registry, observations, and reliability.
+- A dashboard that shows why each pass was chosen or skipped, so the schedule is
+  never a black box.
+- **MSP 0.1**, an open four-endpoint HTTP/JSON protocol that any station can
+  implement. It is small enough for a microcontroller and resilient to dropped
+  connections and reboots. It is frozen.
+- The reliability module, which owns the indicators, the objectives and an
+  irrecoverable-loss budget.
+
+## The decision I am proudest of
+
+A pass only counts as missed if the station's heartbeat proves it was listening on
+the right target, frequency and time. **Absence is not a miss.** Without that rule a
+station outage reads as a reliability failure, and every number downstream is
+quietly wrong. It is enforced in exactly one place.
+
+## Where it stands
+
+The software is built and tested: 41 of the 42 conditions in the acceptance document
+are proven on every change, and the last is a 72-hour run on the station's own
+computer. A practice fleet of 50 simulated stations exercises the whole pipeline,
+faults included, and everything it produces is labelled as simulated. Station 001 is
+still being built, so no measured result is published. The whole platform has to come
+up on a clean machine in under ten minutes, and CI fails the build if it does not.

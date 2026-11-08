@@ -3,7 +3,7 @@ import { motion } from 'framer-motion'
 import { Navigate, useParams } from 'react-router-dom'
 import { fieldwork } from '../data/fieldwork'
 import { mdxComponents } from '../components/mdx/MDXComponents'
-import { useMDXComponent } from '../components/mdx/useMDXComponent'
+import { MDXContent } from '../components/mdx/MDXContent'
 import { usePageMeta } from '../hooks/usePageMeta'
 import ErrorBoundary from '../components/ui/ErrorBoundary'
 import ContentSkeleton from '../components/ui/ContentSkeleton'
@@ -14,7 +14,6 @@ const easing: [number, number, number, number] = [0.16, 1, 0.3, 1]
 export default function CaseStudy() {
   const { slug } = useParams<{ slug: string }>()
   const caseStudy = useMemo(() => fieldwork.find((item) => item.slug === slug), [slug])
-  const Content = useMDXComponent(caseStudy?.code ?? '')
   const hasContent = Boolean(caseStudy?.code)
 
   usePageMeta({
@@ -27,7 +26,7 @@ export default function CaseStudy() {
   }
 
   return (
-    <motion.main
+    <motion.div
       key="case-content"
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
@@ -39,7 +38,8 @@ export default function CaseStudy() {
           <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-ink-muted">
             Field Work · {caseStudy.clientType}
           </p>
-          <h1 className="mt-4 font-display text-[40px] leading-[1.05] text-ink sm:text-[56px] sm:leading-[1.05] lg:text-display-xl">{caseStudy.deliverable}</h1>
+          <h1 className="mt-4 font-display text-[40px] leading-[1.05] text-ink sm:text-[56px] sm:leading-[1.05] lg:text-display-xl">{caseStudy.title}</h1>
+          <p className="mt-4 max-w-[52ch] font-body text-[17px] leading-[1.6] text-ink-muted">{caseStudy.deliverable}</p>
           <div className="mt-4 flex flex-wrap gap-2">
             {caseStudy.tags.map((tag, tagIndex) => (
               <span
@@ -65,7 +65,7 @@ export default function CaseStudy() {
               }
             >
               {hasContent ? (
-                <Content components={mdxComponents} />
+                <MDXContent code={caseStudy.code} components={mdxComponents} />
               ) : (
                 <ContentSkeleton type="article" />
               )}
@@ -82,11 +82,11 @@ export default function CaseStudy() {
               <p className="mt-5 font-mono text-[11px] uppercase tracking-widest text-ink-muted">
                 Access
               </p>
-              <p className="mt-2 font-mono text-xs text-ink">Public</p>
+              <p className="mt-2 font-mono text-xs text-ink">{caseStudy.restricted ? 'Restricted' : 'Public'}</p>
             </div>
           </aside>
         </div>
       </div>
-    </motion.main>
+    </motion.div>
   )
 }

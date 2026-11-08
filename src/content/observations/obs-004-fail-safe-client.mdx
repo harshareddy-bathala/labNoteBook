@@ -1,0 +1,58 @@
+---
+id: "OBS-004"
+slug: "stop-and-alert-dont-retry"
+title: "Stop and Alert, Don't Retry: Designing a Protocol for Unreliable Networks"
+excerpt: "MSP, the Meridian station protocol, retries aggressively when the network is bad and stops completely when authentication fails. Those two rules look contradictory until you see the failure each one prevents."
+date: "Aug 30, 2026"
+readTime: 5
+tags: ["protocol", "meridian", "security"]
+status: "published"
+featured: false
+related: ["EXP-001"]
+---
+
+Meridian's stations talk to the platform over a small HTTP protocol I designed,
+called MSP. Stations may be a microcontroller on a roof with a bad connection, so
+most of the design is about what happens when things go wrong.
+
+## When the network is bad, be persistent
+
+Connections drop and devices reboot. MSP assumes that:
+
+- Retries are idempotent, so sending the same request twice does the same thing as
+  sending it once.
+- A 30-second heartbeat is self-healing: if one is lost, the next one repairs the
+  state.
+- Assignments are delivered at least once, and the station handles duplicates.
+- If the platform is unreachable, the station keeps receiving and queues its results
+  until it can send them.
+
+## When authentication fails, stop
+
+Registration is by invite token only, and there are no open write endpoints. Client
+keys are stored hashed. The hashing is what makes retries safe without letting a
+spent invite be used again.
+
+Then the opposite rule. If a station's credentials are rejected, it does not retry.
+It stops and alerts its operator.
+
+## Why the two rules do not conflict
+
+A retry is the right answer to a transient fault, something that will probably work
+if you try again. A rejected credential is not transient. Retrying it will never
+succeed, and a fleet of stations all hammering the platform with a bad key is a
+denial of service that the stations carry out on themselves.
+
+So the protocol separates the two kinds of failure on purpose:
+
+| Failure | Behaviour |
+| --- | --- |
+| Network drop, timeout, platform down | Retry idempotently, queue results |
+| Authentication rejected | Stop, alert the operator |
+
+## What I would keep
+
+Deciding which failures are worth retrying is a design decision, not a default. Most
+code retries everything because that is the easy loop to write. Writing down, for
+each failure, whether trying again can help turned out to be the most useful part of
+the protocol document.

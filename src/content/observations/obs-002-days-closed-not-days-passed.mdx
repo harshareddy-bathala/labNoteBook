@@ -1,0 +1,53 @@
+---
+id: "OBS-002"
+slug: "days-closed-not-days-passed"
+title: "Days Closed, Not Days Passed: Designing Cairn Around Progress, Not the Calendar"
+excerpt: "A good 13-week roadmap failed me twice because it turned red the moment a day slipped. Cairn counts the days I actually showed up, so a bad week costs a streak and nothing else."
+date: "Oct 12, 2026"
+readTime: 4
+tags: ["product", "cairn", "design"]
+status: "published"
+featured: false
+related: ["EXP-005"]
+---
+
+I had a good plan for placement prep. Thirteen weeks, sensible order, the right
+topics. It failed twice, and the plan was not the reason.
+
+## Why it failed
+
+Every day on the plan had a date. When I missed one, the plan did not shrink to fit
+me. It turned red and stayed red. After a few of those the plan is no longer a guide,
+it is a record of how far behind you are, and the easiest move is to stop opening it.
+
+There were other gaps too: no reminders, no accountability, no curated resources. But
+the calendar was the one that did the damage.
+
+## Index by days closed
+
+Cairn keeps the same roadmap and changes what time means. Progress is indexed by
+`day_index`, the count of days on which I actually closed a log. A journey week is
+seven active days, not seven calendar days, so every weekly quota corrects itself.
+
+Skipping three days costs a streak. It does not cost the plan. There is no calendar,
+and so nothing is ever overdue.
+
+Two small mechanisms keep it honest:
+
+- A catch-up toggle (1x, 1.5x, 2x) lets one strong day absorb two skipped ones.
+- A bad-day button collapses the plan to the minimum chain, one problem plus the log,
+  so the streak survives a day when nothing else is possible.
+
+## Git is the source of truth
+
+The content has a similar principle. The curriculum lives in the repository as typed
+TypeScript and is pushed into Postgres by a seed script. The database is a cache.
+Seeding is idempotent, runs in a single transaction, and never deletes on its own,
+because progress rows hang off content rows, and deleting a unit would delete
+everyone's work on it. A slug that has progress must never be renamed.
+
+## The takeaway
+
+Most planning tools are built around the schedule, and a schedule is the thing you
+will break first. Measuring progress in work done, not time elapsed, removes a whole
+category of guilt without removing any of the structure.

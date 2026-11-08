@@ -5,7 +5,7 @@ module.exports = {
       colors: {
         cream: { base: '#F5F0E8', surface: '#FDFAF4', line: '#E2D9CC' },
         ink: { DEFAULT: '#1A1612', muted: '#6B5F52', dark: '#2E2A26', deep: '#4A453F' },
-        accent: { red: '#C84B31', green: '#3D5A47' },
+        accent: { red: '#B5412A', green: '#3D5A47' },
         bg: {
           page: '#FFFFFF',
           section: '#F5F0E8',

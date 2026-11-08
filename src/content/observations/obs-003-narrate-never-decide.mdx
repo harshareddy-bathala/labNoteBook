@@ -1,0 +1,52 @@
+---
+id: "OBS-003"
+slug: "narrate-never-decide"
+title: "The Model Narrates, It Never Decides: How NetWatch Uses a Local LLM"
+excerpt: "Everything above NetWatch's event bus is deterministic. The language model is only allowed to explain and recommend, and every answer is grounded in output the user can see."
+date: "Sep 20, 2026"
+readTime: 4
+tags: ["networking", "netwatch", "ai"]
+status: "published"
+featured: false
+related: ["EXP-002"]
+---
+
+NetWatch watches a network and explains what it sees. The easy way to build that is
+to hand the packets to a language model and ask what is going on. I deliberately did
+not do that.
+
+## The shape of the system
+
+Packets come in from Scapy, get parsed and batched, and are published to an event
+bus. Everything that reads from the bus is ordinary code: flow tracking, device
+behaviour, threat detection, incident fusion and congestion forecasting.
+
+```text
+packets -> capture -> event bus -> intelligence -> REST + SSE -> dashboard
+                                   (deterministic)
+```
+
+The model sits at the edge, after the decisions have been made.
+
+## Three rules for the model
+
+1. **It narrates and recommends. It never decides.** Whether something is an
+   incident is settled by deterministic code.
+2. **Every answer is grounded.** The model answers from tool output that the UI
+   shows next to its words, so a claim can be checked against its source.
+3. **Every recommendation is a proposal.** Nothing is enforced until a person
+   approves it.
+
+## Degrading gracefully
+
+The AI features run against a local model, so there is no cloud account, no API key
+and no telemetry. When no model is running, each AI feature falls back to a
+deterministic version of itself. The product is worse without the model, but it is
+never broken.
+
+## Why bother
+
+Two reasons. A network tool that sends your traffic to a third party defeats its own
+purpose, which is why storage is local SQLite and inference is on-device. And a tool
+that acts on a model's guess is hard to trust or debug. When the decisions are
+deterministic, a wrong alert is a bug I can find, not a mood I have to live with.

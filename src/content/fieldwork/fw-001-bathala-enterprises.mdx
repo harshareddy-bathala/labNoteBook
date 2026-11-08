@@ -1,0 +1,48 @@
+---
+id: "FW-001"
+slug: "bathala-enterprises-cms-platform"
+title: "Bathala Enterprises"
+clientType: "Product Build"
+deliverable: "Real-estate listings and enquiry platform with an admin dashboard"
+year: 2025
+tags: ["nextjs", "supabase", "ci-cd", "real-estate"]
+restricted: false
+coverColor: "#D8CBB8"
+---
+
+## Project Summary
+
+A live website for a Bangalore real-estate brokerage, with an admin dashboard so the
+owner can manage properties and services without a developer. I built it and I still
+maintain it.
+
+## What I Built
+
+- Public listings for rent, lease and sale, with slug routing and incremental static
+  regeneration.
+- An admin dashboard behind Supabase Auth, with create, update and delete for
+  properties and services, and an enquiry inbox.
+- Enquiry forms using React Hook Form and Zod, validated again on the server, with
+  email notifications through Resend.
+- A FAQ chatbot widget backed by Gemini.
+- Security headers, input sanitisation and a security.txt contact.
+
+## Delivery
+
+GitHub Actions runs lint, typecheck, build and Playwright suites on each pull
+request. Production deploys follow a passing run, and Lighthouse budgets for
+performance and accessibility act as pull-request checks.
+
+## Tech Stack
+
+Next.js 16, React 19, TypeScript, Tailwind CSS, Supabase (Auth and PostgreSQL),
+React Hook Form, Zod, Playwright, GitHub Actions and Vercel.
+
+## Live
+
+- https://bathala-enterprises.vercel.app/
+
+## Outcome
+
+The owner updates listings and services day to day without touching code, and the
+site ships through a pipeline that does not let a broken build reach production.

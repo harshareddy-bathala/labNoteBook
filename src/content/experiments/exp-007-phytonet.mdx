@@ -1,0 +1,38 @@
+---
+id: "EXP-007"
+slug: "phytonet"
+title: "PhytoNet"
+description: "A simulated plant that learns its own internal signalling, with no central brain and no neural network in the headline controller."
+status: "paused"
+startDate: "Aug 2026"
+year: 2026
+tags: ["research", "simulation", "learning"]
+stack: ["Python", "CEM", "PPO", "GNN"]
+abstract: "Each tissue in a plant graph runs the same interpretable rule and talks to its neighbours by electrical signals. The rule is evolved, not trained. The question is whether the signalling that emerges looks like real plant signalling."
+featured: false
+published: true
+restricted: true
+---
+
+## Abstract
+
+The plant's body is a graph of tissues. Each one reads its local environment,
+exchanges signals with its neighbours and acts: grow, thicken, steer, defend. Reward
+comes from survival, biomass and reproduction. The headline controller is
+brain-free and decentralised, and its rule is evolved with the cross-entropy method,
+with no backpropagation. Neural controllers (a PPO policy and a per-tissue graph
+network) are kept as baselines.
+
+## Result
+
+In a multi-seed, statistically tested benchmark the bioelectric controller beats the
+neural baselines overall, and by a significant margin under herbivory (+2.83,
+p = 0.008), where its electrical wound-to-defence response matters. The learned
+signalling shows three signatures of real plant signalling: systemic spread, a slow
+finite-speed wave, and a wound response directed along the shoot.
+
+## The finding I would defend
+
+Signalling helps for coordination problems such as defence. It does not help with
+plain environmental variability. A paper-style write-up with methods, figures and
+results is in the repository, which is private.

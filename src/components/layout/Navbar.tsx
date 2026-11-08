@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
+import { profile } from '../../data/profile'
 
 type NavLink = {
   label: string
@@ -87,10 +88,6 @@ export default function Navbar() {
       }
     }
   }, [])
-
-  useEffect(() => {
-    setHoveredIndex(null)
-  }, [location.pathname])
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -180,7 +177,7 @@ export default function Navbar() {
       >
         <div className="mx-auto flex h-full max-w-[1440px] items-center justify-between px-14">
           <Link to="/" className="font-display text-xl text-ink no-underline">
-            Harsha Reddy
+            {profile.name}
           </Link>
 
           {/* Desktop Navigation */}
@@ -205,6 +202,15 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
+
+            <a
+              href={profile.resume.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="py-4 font-ui text-sm text-ink-muted no-underline transition-colors duration-200 hover:text-ink"
+            >
+              Resume ↗
+            </a>
 
             {/* Sliding Pill Underline */}
             <motion.div
@@ -292,6 +298,15 @@ export default function Navbar() {
                   {link.label}
                 </Link>
               ))}
+              <a
+                href={profile.resume.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setMobileMenuOpen(false)}
+                className="font-display text-4xl text-ink no-underline"
+              >
+                Resume ↗
+              </a>
             </nav>
           </motion.div>
         )}

@@ -1,0 +1,32 @@
+---
+id: "EXP-008"
+slug: "rootsense"
+title: "RootSense"
+description: "A two-node, offline-first sense, decide and act system for irrigation and shading, built on ESP32 boards."
+status: "archived"
+startDate: "Jul 2026"
+year: 2026
+tags: ["embedded", "iot", "agriculture"]
+stack: ["C", "ESP32", "ESP-NOW", "Arduino"]
+abstract: "A field node reads soil moisture and runs a pump. A nursery node reads temperature and light and drives a shade motor. They talk over ESP-NOW, and the dashboard is served from the field node's own Wi-Fi access point, so nothing needs the internet."
+githubUrl: "https://github.com/harshareddy-bathala/rootSense"
+featured: false
+published: true
+restricted: false
+---
+
+## Abstract
+
+RootSense is hardware first. Node 1 sits in the field with a soil-moisture sensor and
+a pump relay, and hosts the dashboard on its own access point. Node 2 sits in the
+nursery with a temperature sensor, a light sensor and a shade motor, and broadcasts
+its readings over ESP-NOW. Node 1 folds the nursery temperature into its urgency
+score before it decides to water.
+
+## What I learned the hard way
+
+The repository opens with a wiring warning before anything else. ESP32 pins are
+not 5 V tolerant, so the sensors belong on 3.3 V or the analogue readings clip and
+the data line can be damaged. A flyback diode goes across the pump motor, and if the
+board resets when the pump starts the motor needs its own supply with a shared
+ground. All the calibration constants live in one config file per node.

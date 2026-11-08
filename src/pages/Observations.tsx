@@ -86,7 +86,7 @@ export default function Observations() {
   const listEntries = sortedObservations
 
   return (
-    <main className="overflow-x-hidden bg-cream-base text-ink">
+    <div className="overflow-x-hidden bg-cream-base text-ink">
       <section className="mx-auto w-full max-w-[1160px] border-b border-cream-line px-5 pb-px pt-12 sm:px-8 sm:pt-16 lg:px-14 xl:px-16">
         <div className="pt-3 sm:pt-6">
           <Link
@@ -203,6 +203,6 @@ export default function Observations() {
           )}
         </div>
       </section>
-    </main>
+    </div>
   )
 }

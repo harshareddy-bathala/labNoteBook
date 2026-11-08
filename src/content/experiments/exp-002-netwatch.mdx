@@ -1,0 +1,49 @@
+---
+id: "EXP-002"
+slug: "netwatch"
+title: "NetWatch"
+description: "Local network intelligence: live packet capture, device tracking and plain-English explanations, entirely on your own machine."
+status: "archived"
+startDate: "Jul 2025"
+year: 2025
+tags: ["networking", "security", "local-first"]
+stack: ["Python", "Scapy", "Flask", "SSE", "SQLite", "Ollama"]
+abstract: "NetWatch watches a network, explains what it sees in plain English and lets you act on it, with nothing leaving the host. The language model narrates and recommends. It never decides."
+featured: false
+published: true
+restricted: true
+---
+
+## Abstract
+
+NetWatch captures packets with Scapy, tracks devices, fuses alerts into incidents,
+forecasts congestion and answers questions about your own traffic. Storage is local
+SQLite. The optional AI features run against a local model, so there is no cloud
+account, no API key and no telemetry.
+
+## Problem
+
+Home and small-office networks are opaque. The tools that explain them either ship
+your traffic to a cloud service or bury you in packet dumps.
+
+## What I built
+
+- A capture pipeline that parses and batches packets onto an event bus, with the
+  mode detected automatically (hotspot, Ethernet, Wi-Fi client, port mirror).
+- An intelligence layer for flows, device behaviour, threats, incidents and
+  forecasting, all deterministic.
+- A Flask REST and Server-Sent Events backend feeding a browser dashboard, with
+  MAC-keyed device identity and passive fingerprinting.
+- Per-device controls that a human approves before they are enforced.
+
+## The design rule
+
+Everything above the event bus is deterministic. The model is only allowed to
+narrate and recommend. Every answer is grounded in tool output the UI shows, every
+recommendation is a proposal a person approves, and every AI feature falls back to a
+deterministic path when no model is running.
+
+## Where it stands
+
+About 70 commits and a test suite of over a thousand tests. I led a team of five and
+we exhibited it at CII Innoverge 2026 in Bengaluru. The repository is private.

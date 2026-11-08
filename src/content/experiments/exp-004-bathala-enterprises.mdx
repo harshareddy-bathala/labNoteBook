@@ -1,0 +1,39 @@
+---
+id: "EXP-004"
+slug: "bathala-enterprises"
+title: "Bathala Enterprises"
+description: "A live real-estate listings and enquiry platform for a Bangalore brokerage, with an admin dashboard I built and still maintain."
+status: "active"
+startDate: "Sep 2025"
+year: 2025
+tags: ["full-stack", "production", "ci-cd"]
+stack: ["Next.js 16", "React 19", "TypeScript", "Supabase", "Zod", "Playwright"]
+abstract: "A production site for a real client. Public listings with slug routing and ISR, a Supabase-gated admin for properties, services and an enquiry inbox, and a pipeline that will not deploy a broken build."
+githubUrl: "https://github.com/harshareddy-bathala/bathalaEnterprises"
+liveUrl: "https://bathala-enterprises.vercel.app/"
+featured: false
+published: true
+restricted: false
+---
+
+## Abstract
+
+This is the project where someone other than me depends on the result. The site
+lists properties for rent, lease and sale, and gives the owner an admin dashboard to
+manage them without touching code. I built it and I maintain it.
+
+## What I built
+
+- Listings with slug routing and incremental static regeneration.
+- An admin dashboard behind Supabase Auth with full CRUD for properties and
+  services, plus an enquiry inbox.
+- Enquiry capture with React Hook Form and Zod, validated again on the server, and
+  email notifications through Resend.
+- An FAQ chatbot widget backed by Gemini.
+- Security headers, input sanitisation and a security.txt contact.
+
+## Delivery
+
+GitHub Actions runs lint, typecheck, build and the Playwright suites on every pull
+request. Production deploys only follow a passing run, and Lighthouse budgets for
+performance and accessibility are checked as pull-request gates.

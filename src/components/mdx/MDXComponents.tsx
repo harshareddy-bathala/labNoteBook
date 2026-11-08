@@ -25,6 +25,59 @@ export const mdxComponents: MDXComponents = {
       {children}
     </p>
   ),
+  ul: ({ children, ...props }) => (
+    <ul className="mt-5 list-disc space-y-2 pl-6 marker:text-accent-red" {...props}>
+      {children}
+    </ul>
+  ),
+  ol: ({ children, ...props }) => (
+    <ol className="mt-5 list-decimal space-y-2 pl-6 marker:font-mono marker:text-accent-red" {...props}>
+      {children}
+    </ol>
+  ),
+  li: ({ children, ...props }) => (
+    <li
+      className="pl-1 font-body text-[16px] leading-[1.72] text-ink sm:text-[17px] sm:leading-[30.6px]"
+      {...props}
+    >
+      {children}
+    </li>
+  ),
+  a: ({ children, href, ...props }) => (
+    <a
+      href={href}
+      className="text-accent-red underline decoration-accent-red/40 underline-offset-4 transition-colors hover:text-ink [overflow-wrap:anywhere]"
+      {...(href?.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      {...props}
+    >
+      {children}
+    </a>
+  ),
+  strong: ({ children, ...props }) => (
+    <strong className="font-semibold text-ink" {...props}>
+      {children}
+    </strong>
+  ),
+  table: ({ children, ...props }) => (
+    <div className="mt-6 overflow-x-auto border border-cream-line">
+      <table className="w-full border-collapse text-left" {...props}>
+        {children}
+      </table>
+    </div>
+  ),
+  th: ({ children, ...props }) => (
+    <th
+      className="border-b border-cream-line bg-cream-surface px-4 py-3 font-mono text-[11px] font-normal uppercase tracking-[0.88px] text-ink-muted"
+      {...props}
+    >
+      {children}
+    </th>
+  ),
+  td: ({ children, ...props }) => (
+    <td className="border-b border-cream-line px-4 py-3 align-top font-body text-[15px] leading-[1.6] text-ink last:border-b-0" {...props}>
+      {children}
+    </td>
+  ),
   blockquote: ({ children, ...props }) => (
     <blockquote
       className="mt-9 border-l-[3px] border-accent-red bg-cream-surface px-5 py-5 sm:mt-10 sm:pl-[27px] sm:pr-6 sm:py-6"
